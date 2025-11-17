@@ -51,12 +51,17 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
                 radius = 100f,
                 center = Offset(gameViewModel.circleX, gameViewModel.circleY)
             )
-            drawImage(
-                image = imageBitmaps[gameViewModel.horse.number],
-                dstOffset = IntOffset(gameViewModel.horse.horseX,
-                    gameViewModel.horse.horseY),
-                dstSize = IntSize(300, 300)
-            )
+
+            for(i in 0..2) {
+                drawImage(
+                    image = imageBitmaps[gameViewModel.horses[i].number],
+                    dstOffset = IntOffset(
+                        gameViewModel.horses[i].horseX,
+                        gameViewModel.horses[i].horseY.toInt()
+                    ),
+                    dstSize = IntSize(300, 300)
+                )
+            }
 
         }
 
@@ -71,3 +76,4 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
         }
     }
 }
+
