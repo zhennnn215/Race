@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -16,6 +17,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.window.layout.WindowMetricsCalculator
 import tw.edu.pu.csim.tcyang.race.ui.theme.RaceTheme
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +49,13 @@ class MainActivity : ComponentActivity() {
         val screenWidthPx = bounds.width().toFloat()
         val screenHeightPx = bounds.height().toFloat()
 
+        val gameViewModel: GameViewModel by viewModels()
+        gameViewModel.SetGameSize(screenWidthPx , screenHeightPx)
+
 
         setContent {
             RaceTheme {
-                GameScreen(message="橫式螢幕，隱藏狀態列")
+                GameScreen(message="橫式螢幕，隱藏狀態列.", gameViewModel)
             }
         }
     }
