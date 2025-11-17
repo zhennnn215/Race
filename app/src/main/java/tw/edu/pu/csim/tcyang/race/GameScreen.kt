@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 
@@ -62,7 +66,6 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
                     dstSize = IntSize(300, 300)
                 )
             }
-
         }
 
         Text(text = message + gameViewModel.screenWidthPx.toString() + "*"
@@ -73,6 +76,14 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
         }
         ){
             Text("遊戲開始")
+        }
+        if (gameViewModel.winnerHorse != null) {
+            Text(
+                text = "第 ${gameViewModel.winnerHorse} 馬獲勝",
+                modifier = Modifier.padding(16.dp),
+                color = Color.Red,
+                style = androidx.compose.ui.text.TextStyle(fontSize = 24.sp)
+            )
         }
     }
 }

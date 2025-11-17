@@ -21,6 +21,8 @@ class GameViewModel: ViewModel() {
     var circleX by mutableStateOf(0f)
     var circleY by mutableStateOf(0f)
 
+    var winnerHorse by mutableStateOf<Int?>(null) // 儲存獲勝馬的編號
+
 
 // 設定螢幕寬度與高度
     fun SetGameSize(w: Float, h: Float) {
@@ -35,13 +37,18 @@ class GameViewModel: ViewModel() {
         circleY += y
     }
     fun StartGame() {
+        gameRunning = true
+        winnerHorse = null  // 重置獲勝者
         //回到初使位置
         circleX = 100f
         circleY = screenHeightPx - 100f
 
+        horses.clear()
         for (i in 0..2) {
-            horses.clear()
             horses.add(Horse(i))
+        }
+        for (horse in horses) {
+            horse.horseX = 0
         }
 
         viewModelScope.launch {
@@ -54,11 +61,22 @@ class GameViewModel: ViewModel() {
                     circleX = 100f
                 }
 
-                for (i in 0..2) {
+                for (i in horses.indices) {
                     horses[i].HorseRun()
-                    if (horses[i].horseX >= screenWidthPx - 200) {
-                        horses[i].horseX = 0 }
+                    if (horses[i].horseX >= screenWidthPx - 200 && winnerHorse == null) {
+                        winnerHorse = i + 1  // 記錄獲勝者
+                        gameRunning = false   // 停止這一輪賽跑
+                        break  // 跳出循環，開始下一輪
+                    }
 
+                }
+                if (winnerHorse != null) {
+                    delay(1000)  // 顯示獲勝訊息
+                    winnerHorse = null
+                    for (horse in horses) {
+                        horse.horseX = 0  // 重置每匹馬的 X 坐標
+                    }
+                    gameRunning = true  // 重新啟動遊戲
                 }
             }
         }

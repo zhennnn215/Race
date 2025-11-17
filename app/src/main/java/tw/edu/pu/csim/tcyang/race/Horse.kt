@@ -2,7 +2,7 @@ package tw.edu.pu.csim.tcyang.race
 
 class Horse(n: Int) {
     var horseX = 0
-    var horseY = 100f
+    var horseY = 100+ 220 * n
 
 
 
